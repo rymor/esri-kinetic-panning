@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+		<title>Simple Map</title>
+		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/dojo/dijit/themes/claro/claro.css">
+		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/esri/css/esri.css">
+		<style>
+			html, body, #map {
+				height: 100%;
+				width: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				background-color: #FFF;
+				overflow: hidden;
+				font-family: Tahoma, Verdana, Segoe, sans-serif;
+			}
+		</style>
+		<script src="dojoConfig.js"></script>
+		<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/"></script>
+		<script>
+			require(["dojo/ready", "esri/map", "dojo/on", "dijit/registry", "dijit/form/TextBox", "dijit/form/ToggleButton", "utils/kineticPanning"], function(ready, esriMap, on, registry, textBox, toggleButton, kineticPanning) {
+				ready(function() {
+					init();
+
+					function init() {
+
+						var map = new esri.Map("map", {
+							basemap : "topo",
+							center : [-122.45, 37.75], //long, lat
+							zoom : 13,
+							sliderStyle : "small"
+						});
+
+						var panning = new kineticPanning(map);
+
+						var velocityBox = dojo.byId("velocityTxt");
+						if (panning.eventModel === "touch")
+							velocityBox.value = panning.displacementTouchMultiplier;
+						else
+							velocityBox.value = panning.displacementMouseMultiplier;
+						on(velocityBox, "change", function(e) {
+							panning.displacementMouseMultiplier = panning.displacementTouchMultiplier = parseInt(e.currentTarget.value, 0);
+						});
+						// chrome doesn't take focus off textbox when map is clicked, need to add extra handler
+						dojo.connect(map, 'onMouseDragStart', function() {
+							panning.displacementMouseMultiplier = panning.displacementTouchMultiplier = parseInt(dojo.byId("velocityTxt").value);
+						});
+
+						var mouseBtn = dojo.byId("mouseBtn");
+						on(mouseBtn, "click", function(e) {
+							if (e.currentTarget.checked)
+								panning.disableMouse();
+							else
+								panning.enableMouse();
+						});
+
+						var touchBtn = dojo.byId("touchBtn");
+						on(touchBtn, "click", function(e) {
+							if (e.currentTarget.checked)
+								panning.disableTouch();
+							else
+								panning.enableTouch();
+						});
+					}
+
+				});
+			});
+		</script>
+	</head>
+
+	<body class="claro">
+		<div style="width:100%;background-color:#96BF7E;padding:10px;">
+			<span>Velocity Multiplier:</span>
+			<input id="velocityTxt" data-dojo-type="dijit/form/TextBox"/>
+			<button id="mouseBtn" data-dojo-type="dijit/form/ToggleButton" data-dojo-props="checked: false">
+				Disable Mouse Events
+			</button>
+			<button id="touchBtn" data-dojo-type="dijit/form/ToggleButton" data-dojo-props="checked: false">
+				Disable Touch Events
+			</button>
+		</div>
+		<div id="map"></div>
+	</body>
+</html>
