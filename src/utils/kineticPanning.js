@@ -112,20 +112,18 @@ function(declare, lang, esri, esriMap, MapNavigationManager, mouseEvents, touchE
 				this._touchSwipeHandle = dojo.connect(this.touchEvents, "onSwipeMove", this, this._onMouseDrag);
 				this._touchSwipeEndHandle = dojo.connect(this.touchEvents, "onSwipeEnd", this, this._onMouseDragEnd);
 				this._touchSwipeExtentChangeHandle = dojo.connect(this.map, 'onExtentChange', this, this._kineticPanStart);
-				
-				this._touchSwipeStartHandle = this._touchSwipeHandle = this._touchSwipeEndHandle = this._touchSwipeExtentChangeHandle = null;
 			}
 		},
 		disableTouch : function() {
-			if (this._mouseEnabled) {
-				this._mouseEnabled = false;
+			if (this._touchEnabled) {
+				this._touchEnabled = false;
 
 				dojo.disconnect(this._touchSwipeStartHandle);
 				dojo.disconnect(this._touchSwipeHandle);
 				dojo.disconnect(this._touchSwipeEndHandle);
 				dojo.disconnect(this._touchSwipeExtentChangeHandle);
 
-				this._mouseDragStartHandle = this._mouseDragHandle = this._mouseDragEndHandle = this._touchSwipeExtentChangeHandle = null;
+				this._touchSwipeStartHandle = this._touchSwipeHandle = this._touchSwipeEndHandle = this._touchSwipeExtentChangeHandle = null;
 			}
 		},
 		enableMouse : function() {
