@@ -13,11 +13,13 @@
 				width: 100%;
 				margin: 0;
 				padding: 0;
+				color: #FFF;
 			}
 			body {
 				background-color: #FFF;
 				overflow: hidden;
 				font-family: Tahoma, Verdana, Segoe, sans-serif;
+				font-size: .9em;
 			}
 		</style>
 		<script src="dojoConfig.js"></script>
@@ -74,9 +76,11 @@
 	</head>
 
 	<body class="claro">
-		<div style="width:100%;background-color:#96BF7E;padding:10px;">
+		<a href="https://github.com/rymor/esri-kinetic-panning"><img style="position: absolute; top: 0; right: 0; border: 0; z-index:100;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+		<div style="width:100%;background-color:#444444;padding:10px;">
+			<h2 style="display:inline;padding-right:30px">ESRI Kinetic Panning</h2>
 			<span>Velocity Multiplier:</span>
-			<input id="velocityTxt" data-dojo-type="dijit/form/TextBox"/>
+			<input id="velocityTxt" data-dojo-type="dijit/form/TextBox" style="width:40px;"/>
 			<button id="mouseBtn" data-dojo-type="dijit/form/ToggleButton" data-dojo-props="checked: false">
 				Disable Mouse Events
 			</button>
