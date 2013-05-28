@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
-		<title>Simple Map</title>
+		<title>ESRI Kinetic Panning Example</title>
 		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/dojo/dijit/themes/claro/claro.css">
 		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.4/js/esri/css/esri.css">
 		<style>
@@ -20,6 +20,12 @@
 				overflow: hidden;
 				font-family: Tahoma, Verdana, Segoe, sans-serif;
 				font-size: .9em;
+			}
+			@media (max-width: 600px) {
+				#githubImg {
+					height: 100px;
+					width:100px;
+				}
 			}
 		</style>
 		<script src="dojoConfig.js"></script>
@@ -76,7 +82,7 @@
 	</head>
 
 	<body class="claro">
-		<a href="https://github.com/rymor/esri-kinetic-panning"><img style="position: absolute; top: 0; right: 0; border: 0; z-index:100;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+		<a href="https://github.com/rymor/esri-kinetic-panning"><img id="githubImg" style="position: absolute; top: 0; right: 0; border: 0; z-index:100; width:" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
 		<div style="width:100%;background-color:#444444;padding:10px;">
 			<h2 style="display:inline;padding-right:30px">ESRI Kinetic Panning</h2>
 			<span>Velocity Multiplier:</span>
