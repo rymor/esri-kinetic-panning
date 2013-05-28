@@ -51,17 +51,17 @@
 							panning.displacementMouseMultiplier = panning.displacementTouchMultiplier = parseInt(dojo.byId("velocityTxt").value);
 						});
 
-						var mouseBtn = dojo.byId("mouseBtn");
-						on(mouseBtn, "click", function(e) {
-							if (e.currentTarget.checked)
+						var mouseBtn = registry.byId("mouseBtn");
+						dojo.connect(mouseBtn, "onClick", function(e) {
+							if (mouseBtn.checked)
 								panning.disableMouse();
 							else
 								panning.enableMouse();
 						});
 
-						var touchBtn = dojo.byId("touchBtn");
-						on(touchBtn, "click", function(e) {
-							if (e.currentTarget.checked)
+						var touchBtn = registry.byId("touchBtn");
+						dojo.connect(touchBtn, "onClick", function(e) {
+							if (touchBtn.checked)
 								panning.disableTouch();
 							else
 								panning.enableTouch();
