@@ -1,5 +1,4 @@
-define(["dojo/_base/declare", "dojo/_base/lang", "esri", "esri/map", "esri/MapNavigationManager", "esri/MouseEvents", "esri/TouchEvents"], 
-function(declare, lang, esri, esriMap, MapNavigationManager, mouseEvents, touchEvents) {
+define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "esri/map", "esri/MapNavigationManager", "esri/MouseEvents", "esri/TouchEvents", "esri/utils", "esri/geometry", "esri/symbol", "esri/graphic", "esri/fx"], function(declare, lang, sniff, esri, esriMap, MapNavigationManager, mouseEvents, touchEvents) {
 
 	return declare("utils.KineticPanning", null, {
 
@@ -24,7 +23,7 @@ function(declare, lang, esri, esriMap, MapNavigationManager, mouseEvents, touchE
 		// minEndVelocity: double
 		//		The number at which the kinetic panning will stop when below the minimum threshold
 		minEndVelocity : 0.1,
-		
+
 		// eventModel: string
 		//		The type of event model being used, set automatically.  (touch || mouse)
 		eventModel : null,
@@ -52,6 +51,12 @@ function(declare, lang, esri, esriMap, MapNavigationManager, mouseEvents, touchE
 		// _touchEnabled: Boolean
 		//		Indicates whether the touch events are enabled
 		_touchEnabled : false,
+
+		_doKineticPanning : false,
+
+		xVelocity : 0,
+
+		yVelocity : 0,
 
 		constructor : function(map) {
 			this.map = map;
@@ -85,24 +90,30 @@ function(declare, lang, esri, esriMap, MapNavigationManager, mouseEvents, touchE
 				// call base init
 				esri.MapNavigationManager.prototype._swipeInit.call(this.map.navigationManager, e);
 			});
-
-			this.enableMouse();
-			this.enableTouch();
 		},
 		// _initEventModel
 		//		Create touch and mouse event models.
 		_initEventModel : function() {
 			if (esri.isTouchEnabled) {
 				this.touchEvents = new touchEvents(this.map.__container, {
-					map : map
+					map : this.map
 				});
 				this.eventModel = "touch";
+				this.enableTouch();
 			} else {
 				this.mouseEvents = new mouseEvents(this.map.__container, {
-					map : map
+					map : this.map
 				});
 				this.eventModel = "mouse";
+				this.enableMouse();
 			}
+
+			// override _fire event, we don't want it to dispatch events to map since MapNavigator already handles this
+			this.mouseEvents._fire = lang.hitch(this.mouseEvents, function(type, e) {
+				if (this[type]) {
+					this[type](e);
+				}
+			});
 		},
 		enableTouch : function() {
 			if (!this._touchEnabled) {
@@ -155,21 +166,30 @@ function(declare, lang, esri, esriMap, MapNavigationManager, mouseEvents, touchE
 			this._doKineticPanning = true;
 			this._lastDragEvt = e;
 
-			// calcute the init velocity for the kinetic panning,
-			// only base it off the last interval before dragging ends
-			this._dragInterval = setInterval(lang.hitch(this, function() {
-				this._setInitVelocity();
-			}), this._dragIntervalDuration);
+			// Calcute the init velocity for the kinetic panning,
+			// only base it off the last interval before dragging ends.
+			if (!sniff("ie") || (sniff("ie") >= 9))
+				this._dragInterval = setInterval(lang.hitch(this, function() {
+					//console.log("setInterval");
+					this._setInitVelocity();
+				}), this._dragIntervalDuration);
 		},
 		// _onMouseDrag
 		//		Capture mouse drag event for calculating initial kinetic pan velocity
 		_onMouseDrag : function(e) {
 			this._mouseDragEvt = e;
+
+			// ie8 and below is too slow to calc velocity w/ setInterval,
+			// use mouse drag event instead to get a starting estimate velocity
+			if (sniff("ie") < 9) {
+				this._setInitVelocity();
+			}
 		},
 		// _onMouseDragEnd
 		//		Capture mouse drag end event for starting point of kinetic pan
 		_onMouseDragEnd : function(e) {
 			this._mouseDragEndEvt = e;
+
 			// don't kick off pan here, introduces lag on older devices, use extentChange event instead
 			//this._kineticPanStart();
 		},
@@ -181,7 +201,7 @@ function(declare, lang, esri, esriMap, MapNavigationManager, mouseEvents, touchE
 
 				if (this.xVelocity !== 0 && this.yVelocity !== 0) {
 					var startPoint = {
-						screenPoint : this._onMouseDragEndEvt ? this._onMouseDragEndEvt.screenPoint : this._mouseDragEvt.screenPoint
+						screenPoint : this._mouseDragEvt.screenPoint
 					};
 
 					// manually kick off map nav panning
