@@ -3,33 +3,33 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 	return declare("utils.KineticPanning", null, {
 
 		// map:	esri/Map
-		//		Reference the to map object
+		//	Reference the to map object
 		map : null,
 
 		// deceleration: double
-		//		The multiplier that is applied to the velocity during each kinetic pan interval
+		//	The multiplier that is applied to the velocity during each kinetic pan interval
 		deceleration : 0.85,
 
 		// displacementMouseMultiplier: double
-		//		Multiplier for calcultaing the initial kinectic panning velocity when using mouse events.  The higher the number, the further and longer the pan will last
-		//		Values 2 - 20 tend to work the best for mouse events
+		//	Multiplier for calcultaing the initial kinectic panning velocity when using mouse events.  The higher the number, the further and longer the pan will last
+		//	Values 2 - 20 tend to work the best for mouse events
 		displacementMouseMultiplier : 5.0,
 
 		// displacementTouchMultiplier: double
-		//		Multiplier for calcultaing the initial kinectic panning velocity when using touch events.  The higher the number, the further and longer the pan will last
-		//		Values 15 - 40 tend to work the best for touch events
+		//	Multiplier for calcultaing the initial kinectic panning velocity when using touch events.  The higher the number, the further and longer the pan will last
+		//	Values 15 - 40 tend to work the best for touch events
 		displacementTouchMultiplier : 20.0,
 
 		// minEndVelocity: double
-		//		The number at which the kinetic panning will stop when below the minimum threshold
+		//	The number at which the kinetic panning will stop when below the minimum threshold
 		minEndVelocity : 0.1,
 
 		// eventModel: string
-		//		The type of event model being used, set automatically.  (touch || mouse)
+		//	The type of event model being used, set automatically.  (touch || mouse)
 		eventModel : null,
 
 		// _dragInterval: Interval
-		//		The interval used for when the user is panning.  Interval is used to calculate the current velocity
+		//	The interval used for when the user is panning.  Interval is used to calculate the current velocity
 		_dragInterval : null,
 
 		// _dragIntervalDuration: int
@@ -37,30 +37,30 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 		_dragIntervalDuration : 50,
 
 		// _kineticPanInterval: int
-		//		Interval used for kinetic panning
+		//	Interval used for kinetic panning
 		_kineticPanInterval : null,
 
 		// _kineticPanIntervalDuration: int
-		//		Duration of each _kineticPanInterval
+		//	Duration of each _kineticPanInterval
 		_kineticPanIntervalDuration : 15,
 
 		// _mouseEnabled: Boolean
-		//		Indicates whether the mouse events are enabled
+		//	Indicates whether the mouse events are enabled
 		_mouseEnabled : false,
 
 		// _touchEnabled: Boolean
-		//		Indicates whether the touch events are enabled
+		//	Indicates whether the touch events are enabled
 		_touchEnabled : false,
 
 		// _doKineticPanning: Boolean
 		_doKineticPanning : false,
 
 		// xVelocity: double
-		//		Current x directional velocity
+		//	Current x directional velocity
 		xVelocity : 0,
 
 		// yVelocity: double
-		//		Current y directional velocity
+		//	Current y directional velocity
 		yVelocity : 0,
 
 		constructor : function(map) {
@@ -97,7 +97,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 			});
 		},
 		// _initEventModel
-		//		Create touch and mouse event models.
+		//	Create touch and mouse event models.
 		_initEventModel : function() {
 			if (esri.isTouchEnabled) {
 				this.touchEvents = new touchEvents(this.map.__container, {
@@ -165,7 +165,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 			}
 		},
 		// _onMouseDragStart
-		//		Initialize kinetic pan properties
+		//	Initialize kinetic pan properties
 		_onMouseDragStart : function(e) {
 			this._mouseDragEvt = this._mouseDragStartEvt = e;
 			this._doKineticPanning = true;
@@ -180,7 +180,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 				}), this._dragIntervalDuration);
 		},
 		// _onMouseDrag
-		//		Capture mouse drag event for calculating initial kinetic pan velocity
+		//	Capture mouse drag event for calculating initial kinetic pan velocity
 		_onMouseDrag : function(e) {
 			this._mouseDragEvt = e;
 
@@ -191,7 +191,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 			}
 		},
 		// _onMouseDragEnd
-		//		Capture mouse drag end event for starting point of kinetic pan
+		//	Capture mouse drag end event for starting point of kinetic pan
 		_onMouseDragEnd : function(e) {
 			this._mouseDragEndEvt = e;
 
@@ -199,7 +199,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 			//this._kineticPanStart();
 		},
 		// _kineticPanStart
-		//		Kicks of the kinetic panning, sets needed intervals to perform animation
+		//	Kicks of the kinetic panning, sets needed intervals to perform animation
 		_kineticPanStart : function(extent, e) {
 			if (this._doKineticPanning) {
 				clearInterval(this._dragInterval);
@@ -227,7 +227,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 			}
 		},
 		// _kineticPan
-		//		Performs one iteration of the kinetic panning
+		//	Performs one iteration of the kinetic panning
 		_kineticPan : function() {
 			// decrease velocity
 			this.xVelocity *= this.deceleration;
@@ -244,7 +244,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 				this._kineticPanEnd();
 		},
 		// _kineticPanEnd
-		//		Ends the kinetic pan animation
+		//	Ends the kinetic pan animation
 		_kineticPanEnd : function() {
 			if (this._kineticPanInterval)
 				clearInterval(this._kineticPanInterval);
@@ -256,13 +256,13 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 			this.map.navigationManager._panEnd(this._curPanningPoint);
 		},
 		// _continuePanning
-		//		Determines if the kinnetic panning animation should continue
-		//	returns:	Boolean
+		//	Determines if the kinnetic panning animation should continue
+		// returns:	Boolean
 		_continuePanning : function() {
 			return (Math.abs(this.xVelocity) > this.minEndVelocity || Math.abs(this.yVelocity) > this.minEndVelocity);
 		},
 		// _calculateInitVelocity
-		//		Sets the starting velocity for the kinetic panning
+		//	Sets the starting velocity for the kinetic panning
 		_setInitVelocity : function() {
 			this.xVelocity = this._calculateInitVelocity(this._lastDragEvt.screenPoint.x, this._mouseDragEvt.screenPoint.x);
 			this.yVelocity = this._calculateInitVelocity(this._lastDragEvt.screenPoint.y, this._mouseDragEvt.screenPoint.y);
@@ -270,7 +270,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 			this._lastDragEvt = this._mouseDragEvt;
 		},
 		// _calculateInitVelocity
-		//		Calculates the starting velocity for the kinetic panning
+		//	Calculates the starting velocity for the kinetic panning
 		_calculateInitVelocity : function(/*int*/start, /*int*/end) {
 			if (start === end)
 				return 0;
@@ -286,7 +286,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 
 		},
 		// _isLegacyBrowser
-		//	returns:	Boolean
+		// returns:	Boolean
 		_isLegacyBrowser : function() {
 			return sniff("ie") < 9;
 		}
