@@ -23,7 +23,7 @@ You can alter the amount of kinetic panning applied with the displacementMultipl
     panning.displacementMouseMultiplier = 10;
 
 ###Example
-View the live demo at http://rymor.github.io/esri-kinetic-panning/index.html
+View the live demo at http://rymor.github.io/esri-kinetic-panning/examples/index.html
 
 View the source at https://github.com/rymor/esri-kinetic-panning/examples
 
