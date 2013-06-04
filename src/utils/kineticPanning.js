@@ -52,10 +52,15 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 		//		Indicates whether the touch events are enabled
 		_touchEnabled : false,
 
+		// _doKineticPanning: Boolean
 		_doKineticPanning : false,
 
+		// xVelocity: double
+		//		Current x directional velocity
 		xVelocity : 0,
 
+		// yVelocity: double
+		//		Current y directional velocity
 		yVelocity : 0,
 
 		constructor : function(map) {
@@ -168,7 +173,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 
 			// Calcute the init velocity for the kinetic panning,
 			// only base it off the last interval before dragging ends.
-			if (!sniff("ie") || (sniff("ie") >= 9))
+			if (!this._isLegacyBrowser())
 				this._dragInterval = setInterval(lang.hitch(this, function() {
 					//console.log("setInterval");
 					this._setInitVelocity();
@@ -181,7 +186,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 
 			// ie8 and below is too slow to calc velocity w/ setInterval,
 			// use mouse drag event instead to get a starting estimate velocity
-			if (sniff("ie") < 9) {
+			if (this._isLegacyBrowser()) {
 				this._setInitVelocity();
 			}
 		},
@@ -279,6 +284,11 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 				return ((end - start) * displacementMultiplier) / this._dragIntervalDuration;
 			}
 
+		},
+		// _isLegacyBrowser
+		//	returns:	Boolean
+		_isLegacyBrowser : function() {
+			return sniff("ie") < 9;
 		}
 	});
 });
