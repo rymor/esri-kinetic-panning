@@ -68,6 +68,8 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 
 			this._initEventModel();
 
+			this._initDragIntervalDuration();
+
 			// need to override the base _panInit to end any kinetic panning.
 			// needs to be terminated before it internally calls its _initStart and _panStart
 			this.map.navigationManager._panInit = lang.hitch(this, function(e) {
@@ -119,6 +121,13 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 					this[type](e);
 				}
 			});
+		},
+		// _initDragIntervalDuration
+		//	When using legacy browers, need to lower the drag interval duration
+		//	used for calculating velocity
+		_initDragIntervalDuration : function() {
+			if (this._isLegacyBrowser())
+				this._dragIntervalDuration = this._dragIntervalDuration / 5;
 		},
 		enableTouch : function() {
 			if (!this._touchEnabled) {
@@ -281,6 +290,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 				else
 					displacementMultiplier = this.displacementMouseMultiplier;
 
+				// endPoint - startPoint / duration
 				return ((end - start) * displacementMultiplier) / this._dragIntervalDuration;
 			}
 
