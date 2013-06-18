@@ -13,12 +13,12 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 		// displacementMouseMultiplier: double
 		//	Multiplier for calcultaing the initial kinectic panning velocity when using mouse events.  The higher the number, the further and longer the pan will last
 		//	Values 2 - 20 tend to work the best for mouse events
-		displacementMouseMultiplier : 5.0,
+		displacementMouseMultiplier : 10.0,
 
 		// displacementTouchMultiplier: double
 		//	Multiplier for calcultaing the initial kinectic panning velocity when using touch events.  The higher the number, the further and longer the pan will last
 		//	Values 15 - 40 tend to work the best for touch events
-		displacementTouchMultiplier : 20.0,
+		displacementTouchMultiplier : 25.0,
 
 		// minEndVelocity: double
 		//	The number at which the kinetic panning will stop when below the minimum threshold

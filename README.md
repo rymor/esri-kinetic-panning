@@ -18,7 +18,7 @@ To enable/disable kinetic panning for mouse/touch devices call the following:
     panning.enableTouch();
     panning.disableTouch();
     
-You can alter the amount of kinetic panning applied with the displacementMultiplier attributes (`displacementTouchMultiplier` and `displacementMouseMultiplier`).  You will tend to want a higher values when using a touch enabled device.  Defaults are set to 5 for mouse and 20 for touch devices.
+You can alter the amount of kinetic panning applied with the displacementMultiplier attributes (`displacementTouchMultiplier` and `displacementMouseMultiplier`).  You will tend to want a higher values when using a touch enabled device.  Defaults are set to 10 for mouse and 25 for touch devices.
     
     panning.displacementMouseMultiplier = 10;
 
