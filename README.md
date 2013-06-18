@@ -32,11 +32,10 @@ Tested with versions 3.3 - 3.5
 
 ###Devices and Browsers
 * Tested on iPhone 5 and iPad 1 & 3.
-* Tested on FF, Chrome, and Safari
+* Tested on FF, Chrome, Safari and IE 8, 9 19
 
 ###Known Issues
 * Tends to be sluggish on iPad gen 1
-* Currently broken in ie8, haven't test on ie 9 and above.
 
 ###Release Notes
 
