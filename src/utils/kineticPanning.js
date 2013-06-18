@@ -107,20 +107,27 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/sniff", "esri", "es
 				});
 				this.eventModel = "touch";
 				this.enableTouch();
+				
+				// override _fire event, we don't want it to dispatch events to map since MapNavigator already handles this
+				this.touchEvents._fire = lang.hitch(this.touchEvents, function(type, e) {
+					if (this[type]) {
+						this[type](e);
+					}
+				});
 			} else {
 				this.mouseEvents = new mouseEvents(this.map.__container, {
 					map : this.map
 				});
 				this.eventModel = "mouse";
+				
+				// override _fire event, we don't want it to dispatch events to map since MapNavigator already handles this
+				this.mouseEvents._fire = lang.hitch(this.mouseEvents, function(type, e) {
+					if (this[type]) {
+						this[type](e);
+					}
+				});
 				this.enableMouse();
 			}
-
-			// override _fire event, we don't want it to dispatch events to map since MapNavigator already handles this
-			this.mouseEvents._fire = lang.hitch(this.mouseEvents, function(type, e) {
-				if (this[type]) {
-					this[type](e);
-				}
-			});
 		},
 		// _initDragIntervalDuration
 		//	When using legacy browers, need to lower the drag interval duration
