@@ -3,7 +3,7 @@ var dojoConfig = {
 	async : true,
 	packages : [{
 		"name" : "utils",
-		"location" : location.pathname.replace(/\/[^/]+\/[^/]+$/, "") + "/src/utils"
+		"location" : "/esri-kinetic-panning/src/utils"
 	}]
 };
 
