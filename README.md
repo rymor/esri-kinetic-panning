@@ -6,7 +6,7 @@ Kinetic panning for esri maps.  Works with mouse and touch enabled devices.
 Uses amd style loading.
 
 ###Usage
-To add kinetic panning to a map, simple add the following:
+To add kinetic panning to a map, simply add the following:
 
     var panning = new kineticPanning(map);
 
@@ -25,7 +25,7 @@ You can alter the amount of kinetic panning applied with the displacementMultipl
 ###Example
 View the live demo at http://rymor.github.io/esri-kinetic-panning/examples/index.html
 
-View the source at https://github.com/rymor/esri-kinetic-panning/examples
+View the source at https://github.com/rymor/esri-kinetic-panning/tree/master/examples
 
 ###ESRI API Supported Versions
 Tested with versions 3.3 - 3.5
